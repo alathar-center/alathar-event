@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استمارة تسجيل فعالية يوم التحدي والمرح</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 650px;
+            background: #ffffff;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+            background-color: #fff;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .checkbox-group input {
+            margin-top: 5px;
+        }
+        button {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #219653;
+        }
+        .admin-btn {
+            background-color: #2980b9;
+            margin-top: 15px;
+        }
+        .admin-btn:hover {
+            background-color: #1f6391;
+        }
+        .success-msg {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            display: none;
+        }
+        /* لوحة الإدارة */
+        #adminPanel {
+            display: none;
+            margin-top: 20px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .close-admin {
+            background-color: #c0392b;
+            margin-top: 15px;
+        }
+        .close-admin:hover {
+            background-color: #962d22;
+        }
+    </style>
+
+    <!-- استيراد مكتبات Firebase عبر CDN -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyA-CBOyG-odIWGABJ36icyS_qwG534QniM",
+            authDomain: "alathar-center.firebaseapp.com",
+            projectId: "alathar-center",
+            storageBucket: "alathar-center.firebasestorage.app",
+            messagingSenderId: "368475191338",
+            appId: "1:368475191338:web:31b27250ba1c9f055bab53"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // جعل وظائف الإرسال والعرض متاحة عامة في النطاق
+        window.submitRegistration = async function(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            submitBtn.style.display = 'none';
+            loadingIndicator.style.display = 'block';
+
+            const registrationData = {
+                name: document.getElementById('fullName').value,
+                age: document.getElementById('age').value,
+                phone: document.getElementById('phone').value,
+                activity: document.getElementById('activity').value,
+                timestamp: new Date().toLocaleString('ar-BH')
+            };
+
+            try {
+                // إرسال البيانات إلى قاعدة بيانات Firestore السحابية
+                await addDoc(collection(db, "registrations"), registrationData);
+
+                // إظهار رسالة النجاح وتفريغ الحقول
+                document.getElementById('regForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            } catch (error) {
+                console.error("خطأ في حفظ البيانات: ", error);
+                alert("حدث خطأ أثناء الاتصال بقاعدة البيانات. يرجى المحاولة مرة أخرى.");
+                submitBtn.style.display = 'block';
+                loadingIndicator.style.display = 'none';
+            }
+        };
+
+        window.verifyAdminPassword = async function() {
+            const passwordInput = prompt("الرجاء إدخال كلمة مرور لوحة الإدارة:");
+            if (passwordInput === "39653050aB") {
+                await loadAdminData();
+            } else if (passwordInput !== null) {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        };
+
+        async function loadAdminData() {
+            document.getElementById('mainFormContainer').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            const tableBody = document.getElementById('adminTableBody');
+            tableBody.innerHTML = `<tr><td colspan="5">جاري جلب البيانات من السحابة...</td></tr>`;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "registrations"));
+                tableBody.innerHTML = "";
+                
+                if (querySnapshot.empty) {
+                    tableBody.innerHTML = `<tr><td colspan="5">لا توجد مسجلات حتى الآن.</td></tr>`;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const row = `<tr>
+                        <td>${data.name || ''}</td>
+                        <td>${data.age || ''}</td>
+                        <td>${data.phone || ''}</td>
+                        <td>${data.activity || ''}</td>
+                        <td>${data.timestamp || ''}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error("خطأ في جلب البيانات: ", error);
+                tableBody.innerHTML = `<tr><td colspan="5" style="color:red;">فشل جلب البيانات من قاعدة البيانات. تأكد من إعدادات القواعد (Rules).</td></tr>`;
+            }
+        }
+
+        window.closeAdminPanel = function() {
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('mainFormContainer').style.display = 'block';
+        };
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <!-- حاوية الاستمارة -->
+    <div id="mainFormContainer">
+        <h2>🎮 فعالية يوم التحدي والمرح</h2>
+        <p class="subtitle">مركز الأطهار للقرآن الكريم - يرجى تعبئة البيانات أدناه للمشاركة</p>
+
+        <form id="regForm" onsubmit="submitRegistration(event)">
+            <div class="form-group">
+                <label for="fullName">اسم المشارك الثلاثي:</label>
+                <input type="text" id="fullName" required placeholder="أدخل اسم المشارك">
+            </div>
+
+            <div class="form-group">
+                <label for="age">العمر:</label>
+                <input type="number" id="age" min="5" max="80" required placeholder="أدخل العمر">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">رقم التواصل (ولي الأمر):</label>
+                <input type="tel" id="phone" required placeholder="مثال: 39000000">
+            </div>
+
+            <div class="form-group">
+                <label for="activity">اختر الفعالية:</label>
+                <select id="activity" required>
+                    <option value="" disabled selected>-- اختر النشاط المناسب --</option>
+                    <option value="Playstation 5 - Fifa 26">Playstation 5 - Fifa 26 (بطولة كرة القدم)</option>
+                    <option value="Lego Challenge">تحدي الليغو (Lego Challenge)</option>
+                    <option value="Cars Remote Control">مضمار السيارات عن بعد (Cars Remote Control)</option>
+                </select>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="consent" required>
+                <label for="consent" style="font-weight: normal; font-size: 14px;">
+                    أقر أنا ولي الأمر بالموافقة على مشاركة ابني في الفعالية، ويتحمل مركز الأطهار مسؤولية التنظيم وفق القواعد العامة. (يُعتبر هذا الخيار توقيعاً إلكترونياً معتمداً).
+                </label>
+            </div>
+
+            <button type="submit" id="submitBtn">تأكيد التسجيل</button>
+            <div id="loadingIndicator" class="loading">جاري حفظ البيانات في السحابة...</div>
+        </form>
+
+        <div id="successMessage" class="success-msg">
+            تم تسجيل طلبك بنجاح وحفظه في النظام! ننتظركم في يوم السبت الموافق 7/11/2026 في صالة مأتم الجشي في البلاد القديم في تمام الساعة 4 عصراً و حتى الثامنة مساءً. 🎉
+        </div>
+
+        <button type="button" class="admin-btn" onclick="verifyAdminPassword()">دخول لوحة الإدارة</button>
+    </div>
+
+    <!-- لوحة الإدارة (محمية) -->
+    <div id="adminPanel">
+        <h2>🛠️ لوحة إتحاد وتسجيلات الفعالية</h2>
+        <p class="subtitle">قائمة المشاركين المسجلين سحابياً</p>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم المشارك</th>
+                        <th>العمر</th>
+                        <th>رقم التواصل</th>
+                        <th>الفعالية المختارة</th>
+                        <th>وقت التسجيل</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    <!-- تُعبأ البيانات برمجياً -->
+                </tbody>
+            </table>
+        </div>
+
+        <button type="button" class="close-admin" onclick="closeAdminPanel()">إغلاق لوحة الإدارة والعودة</button>
+    </div>
+</div>
+
+</body>
+</html>
