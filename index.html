@@ -3,145 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استمارة تسجيل فعالية يوم التحدي والمرح</title>
+    <title>استمارة تسجيل وإدارة فعالية يوم التحدي والمرح</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            max-width: 650px;
-            background: #ffffff;
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-        p.subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #34495e;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="tel"],
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-            box-sizing: border-box;
-            background-color: #fafafa;
-        }
-        input:focus, select:focus {
-            border-color: #3498db;
-            outline: none;
-            background-color: #fff;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .checkbox-group input {
-            margin-top: 5px;
-        }
-        button {
-            width: 100%;
-            background-color: #27ae60;
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #219653;
-        }
-        .admin-btn {
-            background-color: #2980b9;
-            margin-top: 15px;
-        }
-        .admin-btn:hover {
-            background-color: #1f6391;
-        }
-        .success-msg {
-            display: none;
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .loading {
-            text-align: center;
-            color: #7f8c8d;
-            font-style: italic;
-            display: none;
-        }
-        /* لوحة الإدارة */
-        #adminPanel {
-            display: none;
-            margin-top: 20px;
-            border-top: 2px solid #eee;
-            padding-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
-        .close-admin {
-            background-color: #c0392b;
-            margin-top: 15px;
-        }
-        .close-admin:hover {
-            background-color: #962d22;
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
         }
     </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- استيراد مكتبات Firebase عبر CDN -->
+    <!-- Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-900 text-base md:text-lg leading-tight">مركز الأطهار للقرآن الكريم</h1>
+                    <p class="text-xs text-slate-500">فعالية يوم التحدي والمرح</p>
+                </div>
+            </div>
+
+            <!-- View Toggle Buttons -->
+            <div class="flex bg-slate-100 p-1 rounded-xl text-xs md:text-sm font-semibold">
+                <button id="tabRegister" onclick="switchTab('register')" class="px-3 md:px-4 py-2 rounded-lg transition-all duration-200 bg-white text-brand-600 shadow-sm">
+                    <i class="fa-solid fa-pen-to-square ml-1"></i> استمارة التسجيل
+                </button>
+                <button id="tabAdmin" onclick="openAdminPrompt()" class="px-3 md:px-4 py-2 rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-users-gear ml-1"></i> لوحة الإدارة
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 space-y-4 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-slate-100 text-brand-600 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">تسجيل الدخول للوحة الإدارة</h3>
+                <p class="text-xs text-slate-500">يرجى إدخال كلمة المرور للوصول إلى البيانات السحابية</p>
+            </div>
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+                <div>
+                    <input type="password" id="adminPasswordInput" required placeholder="كلمة المرور..."
+                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm text-center font-mono">
+                    <p id="authErrorMsg" class="text-xs text-rose-500 mt-1.5 font-bold hidden text-center">كلمة المرور غير صحيحة!</p>
+                </div>
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 rounded-xl transition text-sm shadow-md">
+                    دخول
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-6 md:py-10 flex-1 w-full">
+
+        <!-- ================= PUBLIC REGISTRATION VIEW ================= -->
+        <section id="viewRegister" class="block space-y-6">
+            
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-brand-600 to-brand-700 rounded-2xl p-6 md:p-8 text-white shadow-lg relative overflow-hidden">
+                <div class="relative z-10 space-y-2">
+                    <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold inline-block">فعالية السبت الترفيهية</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold">استمارة تسجيل المشاركين</h2>
+                    <p class="text-brand-100 text-sm md:text-base max-w-xl">
+                        مرحباً بكم! يرجى تعبئة البيانات أدناه لتسجيل مشاركتكم في أنشطة الفعالية (تخزين سحابي مباشر).
+                    </p>
+                </div>
+                <div class="absolute -left-6 -bottom-10 opacity-15 text-9xl">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+            </div>
+
+            <!-- Success Alert Box -->
+            <div id="successCard" class="hidden bg-emerald-50 border-2 border-emerald-500 text-emerald-900 rounded-2xl p-6 text-center space-y-4 shadow-sm">
+                <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-xl font-bold">تم تسجيل الطلب وحفظه في السحابة بنجاح! 🎉</h3>
+                <p class="text-sm text-emerald-800 max-w-md mx-auto">
+                    شكراً لكم! تم إدراج اسم المشارك في قاعدة بيانات الفعالية. ننتظركم يوم السبت في صالة مأتم الجشي في البلاد القديم الساعة 4 عصراً.
+                </p>
+                <div id="confirmationDetails" class="bg-white p-4 rounded-xl border border-emerald-200 text-right text-xs md:text-sm space-y-1 text-slate-700 max-w-md mx-auto"></div>
+                <button onclick="resetForm()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl transition text-sm">
+                    تسجيل مشارك آخر
+                </button>
+            </div>
+
+            <!-- Registration Form Card -->
+            <div id="formCard" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 space-y-6">
+                <form id="registrationForm" onsubmit="handleRegistrationSubmit(event)" class="space-y-5">
+                    
+                    <div>
+                        <label for="fullName" class="block text-sm font-bold text-slate-700 mb-1">
+                            اسم المشارك الثلاثي <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute right-3.5 top-3.5 text-slate-400"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" id="fullName" required placeholder="مثال: محمد أحمد"
+                                class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none transition text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label for="age" class="block text-sm font-bold text-slate-700 mb-1">
+                                العمر (بالسنوات) <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute right-3.5 top-3.5 text-slate-400"><i class="fa-solid fa-cake-candles"></i></span>
+                                <input type="number" id="age" min="5" max="80" required placeholder="مثال: 11"
+                                    class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none transition text-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-bold text-slate-700 mb-1">
+                                رقم هاتف التواصل / ولي الأمر <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute right-3.5 top-3.5 text-slate-400"><i class="fa-solid fa-phone"></i></span>
+                                <input type="tel" id="phone" dir="ltr" required placeholder="39XXXXXX"
+                                    class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none transition text-sm text-right">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="activity" class="block text-sm font-bold text-slate-700 mb-1">
+                            اختر الفعالية المراد المشاركة بها <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute right-3.5 top-3.5 text-slate-400"><i class="fa-solid fa-gamepad"></i></span>
+                            <select id="activity" required
+                                class="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white focus:outline-none transition text-sm appearance-none">
+                                <option value="" disabled selected>-- اضغط هنا لاختيار النشاط --</option>
+                                <option value="Playstation 5 - Fifa 26">🎮 بلايستيشن 5 - بطولة كرة القدم (FIFA 26)</option>
+                                <option value="Lego Challenge">🧩 تحدي الليغو (Lego Challenge)</option>
+                                <option value="Cars Remote Control">🏎️ مضمار سيارات التحكم عن بعد (RC Cars)</option>
+                            </select>
+                            <span class="absolute left-3.5 top-3.5 text-slate-400 pointer-events-none"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-2xl p-4 md:p-5 bg-slate-50 space-y-4">
+                        <div class="flex items-start space-x-3 space-x-reverse">
+                            <input type="checkbox" id="consentCheckbox" required class="mt-1 w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
+                            <label for="consentCheckbox" class="text-xs md:text-sm text-slate-700 leading-relaxed cursor-pointer">
+                                <strong>إقرار ولي الأمر:</strong> أوافق بصفتي ولي أمر المشارك على تسجيله في الفعالية المحددة أعلاه، وألتزم بالحضور في الموعد المحدد.
+                            </label>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-200">
+                            <label for="parentSignature" class="block text-xs font-bold text-slate-700 mb-1">
+                                التوقيع الإلكتروني لولي الأمر (اكتب اسم ولي الأمر الثلاثي): <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="parentSignature" required placeholder="توقيع ولي الأمر الإلكتروني..."
+                                class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none text-xs md:text-sm italic">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-brand-500/20 transition flex items-center justify-center space-x-2 space-x-reverse text-base">
+                        <span>إرسال وتأكيد التسجيل السحابي</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    <div id="loadingIndicator" class="text-center text-brand-600 font-bold hidden">
+                        <i class="fa-solid fa-spinner fa-spin ml-2"></i> جاري حفظ البيانات في قاعدة بيانات Firebase...
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= ADMIN DASHBOARD VIEW ================= -->
+        <section id="viewAdmin" class="hidden space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">سجل المسجلين (سحابي - Firebase)</h2>
+                    <p class="text-xs text-slate-500">إدارة ومتابعة طلبات التسجيل اللحظية</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="lockAdmin()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs md:text-sm font-bold py-2.5 px-4 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-lock"></i> إغلاق لوحة الإدارة
+                    </button>
+                    <button onclick="exportToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold py-2.5 px-4 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-file-excel"></i> تصدير البيانات (CSV)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500 font-semibold">إجمالي المسجلين</p>
+                    <p id="statTotal" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500 font-semibold">FIFA 26</p>
+                    <p id="statFifa" class="text-2xl font-extrabold text-brand-600 mt-1">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500 font-semibold">تحدي الليغو</p>
+                    <p id="statLego" class="text-2xl font-extrabold text-amber-600 mt-1">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <p class="text-xs text-slate-500 font-semibold">مضمار السيارات</p>
+                    <p id="statCars" class="text-2xl font-extrabold text-purple-600 mt-1">0</p>
+                </div>
+            </div>
+
+            <!-- Filters & Search Bar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-3">
+                <div class="flex-1 relative">
+                    <span class="absolute right-3.5 top-3 text-slate-400 text-sm"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="searchInput" oninput="renderTable()" placeholder="بحث باسم المشارك أو رقم الهاتف..."
+                        class="w-full pr-10 pl-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs md:text-sm">
+                </div>
+                <div class="w-full md:w-56">
+                    <select id="filterActivity" onchange="renderTable()"
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs md:text-sm">
+                        <option value="ALL">جميع الفعاليات</option>
+                        <option value="Playstation 5 - Fifa 26">Playstation 5 - Fifa 26</option>
+                        <option value="Lego Challenge">تحدي الليغو</option>
+                        <option value="Cars Remote Control">مضمار السيارات</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Registrations Data Table -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-xs md:text-sm">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
+                            <tr>
+                                <th class="p-3.5">#</th>
+                                <th class="p-3.5">اسم المشارك</th>
+                                <th class="p-3.5">العمر</th>
+                                <th class="p-3.5">الفعالية</th>
+                                <th class="p-3.5">رقم التواصل</th>
+                                <th class="p-3.5">توقيع ولي الأمر</th>
+                                <th class="p-3.5">التاريخ والوقت</th>
+                                <th class="p-3.5 text-center">إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTableBody" class="divide-y divide-slate-100 text-slate-700">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden p-10 text-center space-y-2">
+                    <i class="fa-solid fa-inbox text-4xl text-slate-300"></i>
+                    <p class="text-sm font-semibold text-slate-500">لا توجد تسجيلات حتى الآن في السحابة</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <p>جميع الحقوق محفوظة © الجمعية الخيرية - فعالية يوم التحدي والمرح</p>
+    </footer>
+
+    <!-- Firebase & Application Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // إعدادات Firebase الخاصة بك
+        // Firebase Configuration (project alathar-center)
         const firebaseConfig = {
             apiKey: "AIzaSyA-CBOyG-odIWGABJ36icyS_qwG534QniM",
             authDomain: "alathar-center.firebaseapp.com",
@@ -151,168 +318,245 @@
             appId: "1:368475191338:web:31b27250ba1c9f055bab53"
         };
 
-        // تهيئة Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // جعل وظائف الإرسال والعرض متاحة عامة في النطاق
-        window.submitRegistration = async function(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            
-            submitBtn.style.display = 'none';
-            loadingIndicator.style.display = 'block';
+        const ADMIN_PASS = '39653050aB';
+        let cloudRegistrations = [];
 
-            const registrationData = {
-                name: document.getElementById('fullName').value,
-                age: document.getElementById('age').value,
-                phone: document.getElementById('phone').value,
-                activity: document.getElementById('activity').value,
-                timestamp: new Date().toLocaleString('ar-BH')
-            };
-
-            try {
-                // إرسال البيانات إلى قاعدة بيانات Firestore السحابية
-                await addDoc(collection(db, "registrations"), registrationData);
-
-                // إظهار رسالة النجاح وتفريغ الحقول
-                document.getElementById('regForm').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-            } catch (error) {
-                console.error("خطأ في حفظ البيانات: ", error);
-                alert("حدث خطأ أثناء الاتصال بقاعدة البيانات. يرجى المحاولة مرة أخرى.");
-                submitBtn.style.display = 'block';
-                loadingIndicator.style.display = 'none';
-            }
-        };
-
-        window.verifyAdminPassword = async function() {
-            const passwordInput = prompt("الرجاء إدخال كلمة مرور لوحة الإدارة:");
-            if (passwordInput === "39653050aB") {
-                await loadAdminData();
-            } else if (passwordInput !== null) {
-                alert("كلمة المرور غير صحيحة!");
-            }
-        };
-
-        async function loadAdminData() {
-            document.getElementById('mainFormContainer').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            
-            const tableBody = document.getElementById('adminTableBody');
-            tableBody.innerHTML = `<tr><td colspan="5">جاري جلب البيانات من السحابة...</td></tr>`;
-
+        // Fetch Registrations from Firebase
+        window.fetchCloudRegistrations = async function() {
             try {
                 const querySnapshot = await getDocs(collection(db, "registrations"));
-                tableBody.innerHTML = "";
-                
-                if (querySnapshot.empty) {
-                    tableBody.innerHTML = `<tr><td colspan="5">لا توجد مسجلات حتى الآن.</td></tr>`;
-                    return;
-                }
-
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const row = `<tr>
-                        <td>${data.name || ''}</td>
-                        <td>${data.age || ''}</td>
-                        <td>${data.phone || ''}</td>
-                        <td>${data.activity || ''}</td>
-                        <td>${data.timestamp || ''}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
+                cloudRegistrations = [];
+                querySnapshot.forEach((document) => {
+                    cloudRegistrations.push({
+                        docId: document.id,
+                        ...document.data()
+                    });
                 });
+                updateCounts();
+                return cloudRegistrations;
             } catch (error) {
-                console.error("خطأ في جلب البيانات: ", error);
-                tableBody.innerHTML = `<tr><td colspan="5" style="color:red;">فشل جلب البيانات من قاعدة البيانات. تأكد من إعدادات القواعد (Rules).</td></tr>`;
+                console.error("خطأ في جلب البيانات من Firebase:", error);
+                return [];
+            }
+        };
+
+        // Always prompt for admin password when clicking Admin Panel button
+        window.openAdminPrompt = function() {
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('authErrorMsg').classList.add('hidden');
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('adminPasswordInput').focus();
+        };
+
+        window.closeAuthModal = function() {
+            document.getElementById('authModal').classList.add('hidden');
+        };
+
+        window.handleAuthSubmit = async function(event) {
+            event.preventDefault();
+            const inputPass = document.getElementById('adminPasswordInput').value;
+            const errorMsg = document.getElementById('authErrorMsg');
+
+            if (inputPass === ADMIN_PASS) {
+                closeAuthModal();
+                showAdminView();
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        };
+
+        window.lockAdmin = function() {
+            switchTab('register');
+        };
+
+        async function showAdminView() {
+            const regView = document.getElementById('viewRegister');
+            const adminView = document.getElementById('viewAdmin');
+            const tabRegBtn = document.getElementById('tabRegister');
+            const tabAdminBtn = document.getElementById('tabAdmin');
+
+            regView.classList.add('hidden');
+            adminView.classList.remove('hidden');
+            tabAdminBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 bg-white text-brand-600 shadow-sm";
+            tabRegBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900";
+            
+            await fetchCloudRegistrations();
+            renderTable();
+        }
+
+        window.switchTab = function(tab) {
+            const regView = document.getElementById('viewRegister');
+            const adminView = document.getElementById('viewAdmin');
+            const tabRegBtn = document.getElementById('tabRegister');
+            const tabAdminBtn = document.getElementById('tabAdmin');
+
+            if (tab === 'register') {
+                regView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                tabRegBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 bg-white text-brand-600 shadow-sm";
+                tabAdminBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900";
             }
         }
 
-        window.closeAdminPanel = function() {
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('mainFormContainer').style.display = 'block';
+        // Handle Registration Submit to Firebase
+        window.handleRegistrationSubmit = async function(event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value.trim();
+            const activity = document.getElementById('activity').value;
+            const parentSignature = document.getElementById('parentSignature').value.trim();
+
+            if (!fullName || !age || !phone || !activity || !parentSignature) {
+                alert('يرجى تعبئة جميع الحقول المطلوبة.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            submitBtn.classList.add('hidden');
+            loadingIndicator.classList.remove('hidden');
+
+            const newEntry = {
+                fullName,
+                age,
+                phone,
+                activity,
+                parentSignature,
+                timestamp: new Date().toLocaleString('ar-BH', { hour12: true })
+            };
+
+            try {
+                await addDoc(collection(db, "registrations"), newEntry);
+
+                submitBtn.classList.remove('hidden');
+                loadingIndicator.classList.add('hidden');
+
+                document.getElementById('formCard').classList.add('hidden');
+                const successCard = document.getElementById('successCard');
+                successCard.classList.remove('hidden');
+
+                document.getElementById('confirmationDetails').innerHTML = `
+                    <p><strong>اسم المشارك:</strong> ${escapeHtml(fullName)}</p>
+                    <p><strong>الفعالية:</strong> ${escapeHtml(activity)}</p>
+                    <p><strong>رقم التواصل:</strong> ${escapeHtml(phone)}</p>
+                    <p><strong>التوقيع الإلكتروني:</strong> ${escapeHtml(parentSignature)}</p>
+                `;
+                fetchCloudRegistrations();
+            } catch (error) {
+                console.error("خطأ أثناء الحفظ:", error);
+                alert("حدث خطأ في الاتصال بقاعدة البيانات السحابية. يرجى المحاولة مرة أخرى.");
+                submitBtn.classList.remove('hidden');
+                loadingIndicator.classList.add('hidden');
+            }
         };
+
+        window.resetForm = function() {
+            document.getElementById('registrationForm').reset();
+            document.getElementById('formCard').classList.remove('hidden');
+            document.getElementById('successCard').classList.add('hidden');
+        };
+
+        window.renderTable = async function() {
+            await fetchCloudRegistrations();
+            const tableBody = document.getElementById('registrationsTableBody');
+            const emptyState = document.getElementById('emptyState');
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const filterActivity = document.getElementById('filterActivity').value;
+
+            tableBody.innerHTML = '';
+
+            const filtered = cloudRegistrations.filter(item => {
+                const matchesSearch = item.fullName.toLowerCase().includes(searchQuery) || item.phone.includes(searchQuery);
+                const matchesActivity = (filterActivity === 'ALL') || (item.activity === filterActivity);
+                return matchesSearch && matchesActivity;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                filtered.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                    row.innerHTML = `
+                        <td class="p-3.5 text-slate-400 font-bold">${index + 1}</td>
+                        <td class="p-3.5 font-bold text-slate-900">${escapeHtml(item.fullName)}</td>
+                        <td class="p-3.5">${item.age} سنة</td>
+                        <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-700">${escapeHtml(item.activity)}</span></td>
+                        <td class="p-3.5 font-mono" dir="ltr">${escapeHtml(item.phone)}</td>
+                        <td class="p-3.5 italic text-slate-600">${escapeHtml(item.parentSignature)}</td>
+                        <td class="p-3.5 text-xs text-slate-400">${item.timestamp}</td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="deleteEntry('${item.docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded transition" title="حذف">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+            updateCounts();
+        };
+
+        function updateCounts() {
+            const list = cloudRegistrations;
+            document.getElementById('statTotal').innerText = list.length;
+            document.getElementById('statFifa').innerText = list.filter(i => i.activity.includes('Fifa')).length;
+            document.getElementById('statLego').innerText = list.filter(i => i.activity.includes('Lego')).length;
+            document.getElementById('statCars').innerText = list.filter(i => i.activity.includes('Cars')).length;
+        }
+
+        window.deleteEntry = async function(docId) {
+            if (confirm('هل أنت متأكد من رغبتك في حذف هذا التسجيل من السحابة؟')) {
+                try {
+                    await deleteDoc(doc(db, "registrations", docId));
+                    await renderTable();
+                } catch (error) {
+                    console.error("خطأ في الحذف:", error);
+                    alert("فشل حذف السجل.");
+                }
+            }
+        };
+
+        window.exportToCSV = function() {
+            const list = cloudRegistrations;
+            if (list.length === 0) {
+                alert('لا توجد بيانات لتصديرها.');
+                return;
+            }
+
+            let csvContent = "\uFEFF"; // UTF-8 BOM for Arabic compatibility
+            csvContent += "الرقم,اسم المشارك,العمر,الفعالية,رقم التواصل,توقيع ولي الأمر,تاريخ التسجيل\n";
+
+            list.forEach((item, index) => {
+                csvContent += `"${index + 1}","${item.fullName}","${item.age}","${item.activity}","${item.phone}","${item.parentSignature}","${item.timestamp}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `مسجلي_فعالية_يوم_التحدي_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.toString().replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchCloudRegistrations();
+        });
     </script>
-</head>
-<body>
-
-<div class="container">
-    <!-- حاوية الاستمارة -->
-    <div id="mainFormContainer">
-        <h2>🎮 فعالية يوم التحدي والمرح</h2>
-        <p class="subtitle">مركز الأطهار للقرآن الكريم - يرجى تعبئة البيانات أدناه للمشاركة</p>
-
-        <form id="regForm" onsubmit="submitRegistration(event)">
-            <div class="form-group">
-                <label for="fullName">اسم المشارك الثلاثي:</label>
-                <input type="text" id="fullName" required placeholder="أدخل اسم المشارك">
-            </div>
-
-            <div class="form-group">
-                <label for="age">العمر:</label>
-                <input type="number" id="age" min="5" max="80" required placeholder="أدخل العمر">
-            </div>
-
-            <div class="form-group">
-                <label for="phone">رقم التواصل (ولي الأمر):</label>
-                <input type="tel" id="phone" required placeholder="مثال: 39000000">
-            </div>
-
-            <div class="form-group">
-                <label for="activity">اختر الفعالية:</label>
-                <select id="activity" required>
-                    <option value="" disabled selected>-- اختر النشاط المناسب --</option>
-                    <option value="Playstation 5 - Fifa 26">Playstation 5 - Fifa 26 (بطولة كرة القدم)</option>
-                    <option value="Lego Challenge">تحدي الليغو (Lego Challenge)</option>
-                    <option value="Cars Remote Control">مضمار السيارات عن بعد (Cars Remote Control)</option>
-                </select>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="consent" required>
-                <label for="consent" style="font-weight: normal; font-size: 14px;">
-                    أقر أنا ولي الأمر بالموافقة على مشاركة ابني في الفعالية، ويتحمل مركز الأطهار مسؤولية التنظيم وفق القواعد العامة. (يُعتبر هذا الخيار توقيعاً إلكترونياً معتمداً).
-                </label>
-            </div>
-
-            <button type="submit" id="submitBtn">تأكيد التسجيل</button>
-            <div id="loadingIndicator" class="loading">جاري حفظ البيانات في السحابة...</div>
-        </form>
-
-        <div id="successMessage" class="success-msg">
-            تم تسجيل طلبك بنجاح وحفظه في النظام! ننتظركم في يوم السبت الموافق 7/11/2026 في صالة مأتم الجشي في البلاد القديم في تمام الساعة 4 عصراً و حتى الثامنة مساءً. 🎉
-        </div>
-
-        <button type="button" class="admin-btn" onclick="verifyAdminPassword()">دخول لوحة الإدارة</button>
-    </div>
-
-    <!-- لوحة الإدارة (محمية) -->
-    <div id="adminPanel">
-        <h2>🛠️ لوحة إتحاد وتسجيلات الفعالية</h2>
-        <p class="subtitle">قائمة المشاركين المسجلين سحابياً</p>
-        
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>اسم المشارك</th>
-                        <th>العمر</th>
-                        <th>رقم التواصل</th>
-                        <th>الفعالية المختارة</th>
-                        <th>وقت التسجيل</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTableBody">
-                    <!-- تُعبأ البيانات برمجياً -->
-                </tbody>
-            </table>
-        </div>
-
-        <button type="button" class="close-admin" onclick="closeAdminPanel()">إغلاق لوحة الإدارة والعودة</button>
-    </div>
-</div>
-
 </body>
 </html>
