@@ -324,25 +324,6 @@
         const ADMIN_PASS = '39653050aB';
         let cloudRegistrations = [];
 
-        // Fetch Registrations from Firebase
-        window.fetchCloudRegistrations = async function() {
-            try {
-                const querySnapshot = await getDocs(collection(db, "registrations"));
-                cloudRegistrations = [];
-                querySnapshot.forEach((document) => {
-                    cloudRegistrations.push({
-                        docId: document.id,
-                        ...document.data()
-                    });
-                });
-                updateCounts();
-                return cloudRegistrations;
-            } catch (error) {
-                console.error("خطأ في جلب البيانات من Firebase:", error);
-                return [];
-            }
-        };
-
         // Always prompt for admin password when clicking Admin Panel button
         window.openAdminPrompt = function() {
             document.getElementById('adminPasswordInput').value = '';
@@ -362,7 +343,7 @@
 
             if (inputPass === ADMIN_PASS) {
                 closeAuthModal();
-                showAdminView();
+                await showAdminView();
             } else {
                 errorMsg.classList.remove('hidden');
             }
@@ -383,8 +364,7 @@
             tabAdminBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 bg-white text-brand-600 shadow-sm";
             tabRegBtn.className = "px-3 md:px-4 py-2 rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900";
             
-            await fetchCloudRegistrations();
-            renderTable();
+            await renderTable();
         }
 
         window.switchTab = function(tab) {
@@ -446,7 +426,6 @@
                     <p><strong>رقم التواصل:</strong> ${escapeHtml(phone)}</p>
                     <p><strong>التوقيع الإلكتروني:</strong> ${escapeHtml(parentSignature)}</p>
                 `;
-                fetchCloudRegistrations();
             } catch (error) {
                 console.error("خطأ أثناء الحفظ:", error);
                 alert("حدث خطأ في الاتصال بقاعدة البيانات السحابية. يرجى المحاولة مرة أخرى.");
@@ -461,17 +440,36 @@
             document.getElementById('successCard').classList.add('hidden');
         };
 
+        // Render Table & Fetch Cloud Data
         window.renderTable = async function() {
-            await fetchCloudRegistrations();
             const tableBody = document.getElementById('registrationsTableBody');
             const emptyState = document.getElementById('emptyState');
             const searchQuery = document.getElementById('searchInput').value.toLowerCase();
             const filterActivity = document.getElementById('filterActivity').value;
 
+            tableBody.innerHTML = `<tr><td colspan="8" class="text-center p-6 text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-2"></i> جاري تحميل البيانات من السحابة...</td></tr>`;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "registrations"));
+                cloudRegistrations = [];
+                querySnapshot.forEach((document) => {
+                    cloudRegistrations.push({
+                        docId: document.id,
+                        ...document.data()
+                    });
+                });
+            } catch (error) {
+                console.error("خطأ في جلب البيانات من Firebase:", error);
+                tableBody.innerHTML = `<tr><td colspan="8" class="text-center p-6 text-rose-500 font-bold">فشل الاتصال بقاعدة البيانات. تأكد من إعدادات القواعد (Rules).</td></tr>`;
+                return;
+            }
+
             tableBody.innerHTML = '';
 
             const filtered = cloudRegistrations.filter(item => {
-                const matchesSearch = item.fullName.toLowerCase().includes(searchQuery) || item.phone.includes(searchQuery);
+                const nameMatch = item.fullName ? item.fullName.toLowerCase().includes(searchQuery) : false;
+                const phoneMatch = item.phone ? item.phone.toString().includes(searchQuery) : false;
+                const matchesSearch = nameMatch || phoneMatch;
                 const matchesActivity = (filterActivity === 'ALL') || (item.activity === filterActivity);
                 return matchesSearch && matchesActivity;
             });
@@ -486,11 +484,11 @@
                     row.innerHTML = `
                         <td class="p-3.5 text-slate-400 font-bold">${index + 1}</td>
                         <td class="p-3.5 font-bold text-slate-900">${escapeHtml(item.fullName)}</td>
-                        <td class="p-3.5">${item.age} سنة</td>
+                        <td class="p-3.5">${item.age || '-'} سنة</td>
                         <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-brand-50 text-brand-700">${escapeHtml(item.activity)}</span></td>
                         <td class="p-3.5 font-mono" dir="ltr">${escapeHtml(item.phone)}</td>
                         <td class="p-3.5 italic text-slate-600">${escapeHtml(item.parentSignature)}</td>
-                        <td class="p-3.5 text-xs text-slate-400">${item.timestamp}</td>
+                        <td class="p-3.5 text-xs text-slate-400">${item.timestamp || '-'}</td>
                         <td class="p-3.5 text-center">
                             <button onclick="deleteEntry('${item.docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded transition" title="حذف">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -506,9 +504,9 @@
         function updateCounts() {
             const list = cloudRegistrations;
             document.getElementById('statTotal').innerText = list.length;
-            document.getElementById('statFifa').innerText = list.filter(i => i.activity.includes('Fifa')).length;
-            document.getElementById('statLego').innerText = list.filter(i => i.activity.includes('Lego')).length;
-            document.getElementById('statCars').innerText = list.filter(i => i.activity.includes('Cars')).length;
+            document.getElementById('statFifa').innerText = list.filter(i => i.activity && i.activity.includes('Fifa')).length;
+            document.getElementById('statLego').innerText = list.filter(i => i.activity && i.activity.includes('Lego')).length;
+            document.getElementById('statCars').innerText = list.filter(i => i.activity && i.activity.includes('Cars')).length;
         }
 
         window.deleteEntry = async function(docId) {
@@ -534,7 +532,7 @@
             csvContent += "الرقم,اسم المشارك,العمر,الفعالية,رقم التواصل,توقيع ولي الأمر,تاريخ التسجيل\n";
 
             list.forEach((item, index) => {
-                csvContent += `"${index + 1}","${item.fullName}","${item.age}","${item.activity}","${item.phone}","${item.parentSignature}","${item.timestamp}"\n`;
+                csvContent += `"${index + 1}","${item.fullName || ''}","${item.age || ''}","${item.activity || ''}","${item.phone || ''}","${item.parentSignature || ''}","${item.timestamp || ''}"\n`;
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -553,10 +551,6 @@
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
             });
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchCloudRegistrations();
-        });
     </script>
 </body>
 </html>
