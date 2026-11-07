@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول مباريات بطولة FIFA 26 - يوم التحدي والمرح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Header Banner -->
+        <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg text-center space-y-2 print-shadow">
+            <div class="inline-block bg-brand-500 text-sky-400 text-xs px-3 py-1 rounded-full font-bold mb-1">
+                <i class="fa-solid fa-gamepad ml-1"></i> بطولة البلايستيشن 5 (FIFA 26)
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black">جدول المباريات والتصفيات الإقصائية</h1>
+            <p class="text-xs md:text-sm text-slate-400">
+                فعالية يوم التحدي والمرح | السبت | البداية: 4:15 عصراً | الاستراحة: 5:05 - 5:45 مساءً
+            </p>
+        </div>
+
+        <!-- Action Print Button -->
+        <div class="text-center no-print">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl shadow transition text-sm">
+                <i class="fa-solid fa-print ml-2"></i> طباعة جدول البطولة (Print Schedule)
+            </button>
+        </div>
+
+        <!-- Devices Distribution Guide -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-sky-100 text-sky-700 text-xs px-2.5 py-1 rounded-full font-bold">محطة اللعب 1</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">PS5 - Device 1</h3>
+                <p class="text-xs text-slate-500 mt-1">المباريات الرئيسية والنهائية</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-emerald-100 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-bold">محطة اللعب 2</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">PS5 - Device 2</h3>
+                <p class="text-xs text-slate-500 mt-1">التصفيات المتوازية</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-purple-100 text-purple-700 text-xs px-2.5 py-1 rounded-full font-bold">محطة اللعب 3</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">PS5 - Device 3</h3>
+                <p class="text-xs text-slate-500 mt-1">التصفيات المتوازية</p>
+            </div>
+        </div>
+
+        <!-- Round 1: Round of 32 Matches Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+            <div class="bg-slate-100 px-6 py-3 border-b border-slate-200 font-bold text-slate-800 text-sm flex items-center justify-between">
+                <span><i class="fa-solid fa-list-check ml-2 text-blue-600"></i> جدول مباريات الدور التمهيدي (دور الـ 32)</span>
+                <span class="text-xs text-slate-500 font-normal">مدة المباراة: 15 دقيقة</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right text-xs md:text-sm">
+                    <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                        <tr>
+                            <th class="p-3 text-center">المباراة</th>
+                            <th class="p-3">اللاعب الأول (صاحب الأرض)</th>
+                            <th class="p-3 text-center">VS</th>
+                            <th class="p-3">اللاعب الثاني (الضيف)</th>
+                            <th class="p-3 text-center">الجهاز المخصص</th>
+                            <th class="p-3 text-center">نتيجة المباراة</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#1</td>
+                            <td class="p-3">سيد هاشم مجيد فيصل (13)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">علي حسين احمد (9)</td>
+                            <td class="p-3 text-center"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-bold text-xs">Device 1</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#2</td>
+                            <td class="p-3">إسماعيل حسين يوسف (8)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">محمد موسى جعفر (8)</td>
+                            <td class="p-3 text-center"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-xs">Device 2</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#3</td>
+                            <td class="p-3">طلال حسين (7)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">كرار حسين احمد (12)</td>
+                            <td class="p-3 text-center"><span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold text-xs">Device 3</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#4</td>
+                            <td class="p-3">علي حسين عيسى (11)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">احمد هاني العويناتي (8)</td>
+                            <td class="p-3 text-center"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-bold text-xs">Device 1</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#5</td>
+                            <td class="p-3">سيد هاشم عدنان جواد (10)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">علي محمود محمد (9)</td>
+                            <td class="p-3 text-center"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-xs">Device 2</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#6</td>
+                            <td class="p-3">سيد حسين عدنان جواد (8)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">منتظر مهدي أحمد (8)</td>
+                            <td class="p-3 text-center"><span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold text-xs">Device 3</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#7</td>
+                            <td class="p-3">سجاد زهير حسن (14)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">إبراهيم علي أمان (9)</td>
+                            <td class="p-3 text-center"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-bold text-xs">Device 1</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#8</td>
+                            <td class="p-3">أحمد مهدي أحمد (11)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">عيسى حسين عيسى (8)</td>
+                            <td class="p-3 text-center"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-xs">Device 2</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#9</td>
+                            <td class="p-3">بدر أيمن عبد النبي (9)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">يوسف زهير غزوان (13)</td>
+                            <td class="p-3 text-center"><span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold text-xs">Device 3</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#10</td>
+                            <td class="p-3">سيد طه السيد جلال (12)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">محمد احمد الاسكافي (11)</td>
+                            <td class="p-3 text-center"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-bold text-xs">Device 1</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#11</td>
+                            <td class="p-3">عبدالله خليل حبيل (11)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">محمود ياسر محمد (13)</td>
+                            <td class="p-3 text-center"><span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold text-xs">Device 2</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#12</td>
+                            <td class="p-3">محمد فراس النايم (10)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">محمد عباس حسين (10)</td>
+                            <td class="p-3 text-center"><span class="bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold text-xs">Device 3</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-center font-bold text-slate-400">#13</td>
+                            <td class="p-3">فضل عبدالكريم حبيب (10)</td>
+                            <td class="p-3 text-center text-red-500 font-bold">VS</td>
+                            <td class="p-3">رضا موسى جعفر (12)</td>
+                            <td class="p-3 text-center"><span class="bg-sky-50 text-sky-700 px-2 py-0.5 rounded font-bold text-xs">Device 1</span></td>
+                            <td class="p-3 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; - &nbsp; &nbsp; ]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Subsequent Rounds Tracking Box -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm print-shadow space-y-3">
+                <h4 class="font-bold text-blue-600 text-sm border-b pb-2"><i class="fa-solid fa-medal ml-1"></i> دور الثمانية (Quarter-Finals)</h4>
+                <ul class="text-xs space-y-2 text-slate-600">
+                    <li>• الفائز من (#1,#2) ضد الفائز (#3,#4)</li>
+                    <li>• الفائز من (#5,#6) ضد الفائز (#7,#8)</li>
+                    <li>• الفائز من (#9,#10) ضد الفائز (#11,#12)</li>
+                    <li>• الفائز من (#13) ضد المتأهل الإضافي</li>
+                </ul>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm print-shadow space-y-3">
+                <h4 class="font-bold text-emerald-600 text-sm border-b pb-2"><i class="fa-solid fa-trophy ml-1"></i> نصف النهائي (Semi-Finals)</h4>
+                <ul class="text-xs space-y-2 text-slate-600">
+                    <li>• مباراة النصف الأولى (Device 1)</li>
+                    <li>• مباراة النصف الثانية (Device 2)</li>
+                    <li>• خروج المغلوب نهائياً وتأهل الطرفين للنهائي</li>
+                </ul>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm print-shadow space-y-3">
+                <h4 class="font-bold text-purple-600 text-sm border-b pb-2"><i class="fa-solid fa-crown ml-1"></i> المباراة النهائية (Final)</h4>
+                <ul class="text-xs space-y-2 text-slate-600">
+                    <li>• طرف النهائي الأول ضد طرف النهائي الثاني</li>
+                    <li>• تُلعب على الجهاز الرئيسي (Device 1)</li>
+                    <li>• تتويج بطل بطولة FIFA 26 🎉</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
