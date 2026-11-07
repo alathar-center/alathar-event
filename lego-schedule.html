@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول مسابقة تحدي الليغو - يوم التحدي والمرح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .print-shadow { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Header Banner -->
+        <div class="bg-amber-600 text-white p-6 rounded-2xl shadow-lg text-center space-y-2 print-shadow">
+            <div class="inline-block bg-white/20 text-white text-xs px-3 py-1 rounded-full font-bold mb-1">
+                <i class="fa-solid fa-puzzle-piece ml-1"></i> مسابقة تحدي الليغو (Lego Challenge)
+            </div>
+            <h1 class="text-2xl md:text-3xl font-black">قائمة المشاركين والبرنامج الزمني</h1>
+            <p class="text-xs md:text-sm text-amber-100">
+                السبت | البداية: 4:15 عصراً | الاستراحة: 5:05 - 5:45 مساءً | عدد المشاركين: 7 أبطال
+            </p>
+        </div>
+
+        <div class="text-center no-print">
+            <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-6 rounded-xl shadow transition text-sm">
+                <i class="fa-solid fa-print ml-2"></i> طباعة جدول تحدي الليغو
+            </button>
+        </div>
+
+        <!-- Time Schedule Flow -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-bold">المرحلة الأولى</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">4:15 - 5:05 عصراً</h3>
+                <p class="text-xs text-slate-500 mt-1">توزيع القطع وبدء التحدي الإبداعي الأول</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full font-bold">الاستراحة</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">5:05 - 5:45 مساءً</h3>
+                <p class="text-xs text-slate-500 mt-1">استراحة الصلاة والضيافة للجميع</p>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
+                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold">المرحلة الثانية والتقييم</span>
+                <h3 class="font-bold text-slate-800 mt-2 text-sm">5:45 - 6:15 مساءً</h3>
+                <p class="text-xs text-slate-500 mt-1">استكمال النماذج، تقييم الحكام، وتتويج الفائزين</p>
+            </div>
+        </div>
+
+        <!-- Participants Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-shadow">
+            <div class="bg-slate-100 px-6 py-3 border-b border-slate-200 font-bold text-slate-800 text-sm flex items-center justify-between">
+                <span><i class="fa-solid fa-users ml-2 text-amber-600"></i> أسماء المشاركين في تحدي الليغو</span>
+                <span class="text-xs text-slate-500 font-normal">إجمالي: 7 مشاركين</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right text-xs md:text-sm">
+                    <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                        <tr>
+                            <th class="p-3.5 text-center">#</th>
+                            <th class="p-3.5">اسم المشارك</th>
+                            <th class="p-3.5 text-center">العمر</th>
+                            <th class="p-3.5 text-center">رقم الطاولة / المحطة</th>
+                            <th class="p-3.5 text-center">تقييم لجنة الحكام (من 10)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">1</td>
+                            <td class="p-3.5 font-bold text-slate-900">حسن احمد نبيل السويدي</td>
+                            <td class="p-3.5 text-center">8 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 1</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">2</td>
+                            <td class="p-3.5 font-bold text-slate-900">سيد قاسم سيد محمد سيد سعيد</td>
+                            <td class="p-3.5 text-center">7 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 2</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">3</td>
+                            <td class="p-3.5 font-bold text-slate-900">سيد علي محمود الموسوي</td>
+                            <td class="p-3.5 text-center">6 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 3</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">4</td>
+                            <td class="p-3.5 font-bold text-slate-900">ابراهيم جعفر ابراهيم ال عبود</td>
+                            <td class="p-3.5 text-center">10 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 4</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">5</td>
+                            <td class="p-3.5 font-bold text-slate-900">يوسف ياسر محمد</td>
+                            <td class="p-3.5 text-center">10 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 5</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">6</td>
+                            <td class="p-3.5 font-bold text-slate-900">قاسم جابر جاسم</td>
+                            <td class="p-3.5 text-center">10 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 6</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 text-center font-bold text-slate-400">7</td>
+                            <td class="p-3.5 font-bold text-slate-900">القاسم حسن مال الله</td>
+                            <td class="p-3.5 text-center">7 سنوات</td>
+                            <td class="p-3.5 text-center"><span class="bg-amber-50 text-amber-800 px-2.5 py-1 rounded font-bold text-xs">طاولة 7</span></td>
+                            <td class="p-3.5 text-center border border-dashed border-slate-300">[ &nbsp; &nbsp; &nbsp; / 10 ]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
